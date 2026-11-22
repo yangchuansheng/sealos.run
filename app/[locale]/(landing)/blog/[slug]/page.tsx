@@ -6,13 +6,16 @@ import type React from 'react';
 import { DefaultBlogCoverImage } from '@/assets';
 import { EyeIcon, FramedCalendarIcon, FramedClockIcon, PersonIcon } from '@/assets/icons';
 import { formatDate } from '@/libs/blog/date-utils';
+import { buildBlogPostJsonLd, buildCanonicalBlogUrl } from '@/libs/blog/seo';
 import { blog } from '@/libs/blog/source';
 import type { BlogPost } from '@/libs/blog/types';
 import { getPostPageByLocaleFallback, resolveBlogCategorySlug } from '@/libs/blog/utils';
 import { Icon } from '@/libs/components/ui/icon';
 import { getTranslations } from '@/libs/i18n/server';
+import { SITE_NAME, SITE_URL, SPOKE_ARTICLES } from '@/libs/seo/deepseek-harness';
 import { getMDXComponents } from '@/mdx-components';
 import { BlogSidebar } from './components/BlogSidebar';
+import { DafeiyuClusterBanner } from './components/DafeiyuClusterBanner';
 import { TableOfContents } from './components/TableOfContents';
 
 /**
@@ -47,16 +50,28 @@ export async function generateMetadata({
 	}
 
 	const { title, description, date, author } = page.data as Partial<BlogPageData>;
+	const normalizedUrl = page.url.replace(new RegExp(`^/${locale}`), '') || `/blog/${slug}`;
+	const canonicalUrl = buildCanonicalBlogUrl(normalizedUrl);
 
 	return {
+		metadataBase: new URL(SITE_URL),
 		title,
 		description,
 		authors: author ? [{ name: author }] : undefined,
+		alternates: {
+			canonical: normalizedUrl,
+			languages: {
+				zh: normalizedUrl,
+			},
+		},
 		openGraph: {
+			siteName: SITE_NAME,
+			url: canonicalUrl,
 			title,
 			description,
 			type: 'article',
 			publishedTime: date,
+			locale: 'zh_CN',
 		},
 	};
 }
@@ -68,7 +83,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 		notFound();
 	}
 
-	const { title, date, author, tags, readingTime, views, body, category, description, thumbnail, featured } =
+	const { title, date, author, tags, readingTime, views, body, category, description, thumbnail, featured, faqs } =
 		page.data as Partial<BlogPageData> & {
 			thumbnail?: string | StaticImageData;
 			featured?: boolean;
@@ -76,7 +91,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 	const MDX = body as React.ComponentType<{ components?: MDXComponents }>;
 	const t = await getTranslations({ locale });
 
-	const normalizedUrl = page.url.replace(new RegExp(`^/${locale}`), '');
+	const normalizedUrl = page.url.replace(new RegExp(`^/${locale}`), '') || `/blog/${slug}`;
 	const currentPost: BlogPost = {
 		title: title || '',
 		description: description || '',
@@ -89,12 +104,28 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 		views: views || 0,
 		thumbnail: thumbnail ? getImageSrc(thumbnail) : getImageSrc(DefaultBlogCoverImage),
 		featured: featured || false,
+		faqs: faqs || [],
 		url: normalizedUrl || '/',
 		slug: page.slugs[page.slugs.length - 1] || slug,
 	};
+	const isDafeiyuSpoke = SPOKE_ARTICLES.some((article) => article.slug === currentPost.slug);
+	const jsonLd = buildBlogPostJsonLd({
+		title: currentPost.title,
+		description: currentPost.description,
+		url: currentPost.url,
+		date: currentPost.date || undefined,
+		author: currentPost.author || undefined,
+		tags: currentPost.tags,
+		faqs: currentPost.faqs,
+	});
 
 	return (
 		<main className='flex min-h-screen justify-center'>
+			<script
+				type='application/ld+json'
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires raw HTML injection
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+			/>
 			<div className='grid grid-cols-1 py-14 xl:grid-cols-[20rem_56rem] xl:gap-8 2xl:grid-cols-[20rem_56rem_20rem] 2xl:gap-16'>
 				<div className='hidden pl-4 xl:block'>
 					<TableOfContents />
@@ -163,9 +194,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 						</div>
 					</header>
 
+					{isDafeiyuSpoke && (
+						<DafeiyuClusterBanner
+							variant='top'
+							currentSlug={currentPost.slug}
+						/>
+					)}
+
 					<div className='prose prose-zinc dark:prose-invert prose-headings:font-semibold prose-headings:text-foreground prose-p:text-muted-foreground prose-p:leading-6 prose-a:text-primary prose-strong:text-foreground max-w-none'>
 						<MDX components={getMDXComponents()} />
 					</div>
+
+					{isDafeiyuSpoke && (
+						<DafeiyuClusterBanner
+							variant='bottom'
+							currentSlug={currentPost.slug}
+						/>
+					)}
 				</article>
 
 				<div className='hidden pr-4 2xl:block'>

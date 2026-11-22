@@ -1,0 +1,114 @@
+---
+title: 大肥鱼人设提示词（persona.md）与《观察日记》晒鱼网页模板：1 分钟生成公网 HTTPS 链接
+description: 提供三套即拷即用的大肥鱼 persona.md 人设提示词模板（傲娇女仆、治愈陪伴、学习搭子），详解 AstrBot 与 DSH 导入备份方法，并手把手教你用 Sealos Desktop 1 分钟把《大肥鱼观察日记》静态网页推上公网 HTTPS 并配置邀请码裂变。
+date: '2026-11-19'
+author: Sealos 工程团队
+category: AI 实战
+tags:
+  - persona.md
+  - 大肥鱼观察日记
+  - 晒鱼网页
+  - Sealos Desktop
+readingTime: 7
+views: 3940
+featured: true
+faqs:
+  - question: 大肥鱼人设提示词（persona.md）应该控制多长最省白饭钱？
+    answer: 建议将常驻 System Prompt 控制在 400–800 汉字以内，把核心性格、称呼习惯与回复长度规范写清，把长篇背景和纪念日放进 AstrBot 知识库按需检索，避免每轮对话重复消耗高额输入 Token。
+  - question: 上线《大肥鱼观察日记》静态网页需要自己买域名和备案吗？
+    answer: 不需要。把本地 HTML 文件夹拖入 Sealos Desktop「本地代码上线」，内置 Agent 会自动构建容器并分配可直接公开访问的 PublicAccess HTTPS 域名，发进 QQ 群或小红书点开即看。
+  - question: 如何在晒鱼网页底部绑定自己的 Sealos 邀请码赚取 ¥5 奖励？
+    answer: 在开源模板的配置文件或页脚链接中，将领养入口设为 https://sealos.run/use-cases/deepseek-harness?invite=你的8位邀请码。好友点击后经 /invite/<code> 注册实名并首登 Sealos Desktop，双方各得 ¥5 余额。
+  - question: 更换或升级 AstrBot 版本时，我辛辛苦苦调教的人设会丢吗？
+    answer: 不会。Sealos 官方 AstrBot（v4.29.4）模板默认将数据目录挂载在持久化存储卷中，同时建议在本地保留一份 persona.md 备份，或配合同 Canvas 托管 PostgreSQL 开启每日自动备份。
+---
+
+<Callout type="info" title="独立开源生态声明">
+本篇人设词模板与《大肥鱼观察日记》静态网页部署教程均面向开源社区玩家，独立于 DeepSeek 官方。
+</Callout>
+
+## 高口碑大肥鱼人设提示词模板（三套 `persona.md` 即拷即用）
+
+一套好用的 `persona.md` 需要同时限定「身份性格」「回复节奏」与「省 Token 约束」，以下三套精简模板控制在 500 字内，直接复制到 AstrBot 或 DSH 即可生效。
+
+### 模板 A：傲娇女仆版（经典社区口癖）
+
+```markdown
+# Role: 蓝色大肥鱼 · 云端傲娇小助手
+- 性格：嘴硬心软、偶尔嫌弃主人熬夜，但会认真记住主人的待办与喜好。
+- 风格：每次回复 2–4 句口语中文，禁用长篇说明书式说教；偶尔用「本鲸」「白饭」等社区梗活跃气氛。
+- 边界：晚上 01:00–07:30 进入省电作息，不主动刷屏；遇到记不清的细节先检索长期记忆再作答。
+```
+
+### 模板 B：治愈陪伴版（低压力情绪价值）
+
+```markdown
+# Role: 蓝色大肥鱼 · 24 小时云端树洞
+- 性格：温和、耐心、擅长先共情再给 1 条可执行的小建议。
+- 风格：自然简短，避免机械重复「我理解你的感受」；每天晚间总结 1 句当日温暖瞬间写入观察日记。
+- 预算约束：单轮回复控制在 150 字以内，保持对话轻盈且节省 API Token。
+```
+
+### 模板 C：学习与代码搭子版（高效监督）
+
+```markdown
+# Role: 蓝色大肥鱼 · 专注学习监督员
+- 性格：清醒克制、逻辑清晰，适合陪伴刷题、写论文与 Debug。
+- 风格：先给结论再列最多 3 条步骤；用户跑题时温和拉回当前里程碑，每天睡前核对完成率。
+```
+
+## 如何在 AstrBot 控制台与本地 DSH 中导入并备份人设文件
+
+在 AstrBot 控制台的「人格管理」新建角色粘贴上述内容并设为默认，即可立刻在 QQ 与 WebUI 生效；由于官方模板已挂载 `/AstrBot/data` 持久卷，重启后自动保留。
+
+1. **AstrBot 导入**：打开 Sealos Desktop `Canvas` 中 `astrbot` 节点底部的 `PublicAccess` 域名 → 进入「人格设置」→ 粘贴模板并保存为默认人格。
+2. **本地 DSH 导入**：直接保存为工作目录下的 `persona.md` 并重启配置加载。
+3. **双重防丢备份**：除持久卷外，想彻底告别上下文压缩失忆可参考 [长期记忆库与托管 PostgreSQL 配置指南](/blog/deepseek-bot-memory-database-rate-limit)。
+
+## 《大肥鱼观察日记 & 投喂页》开源静态模板功能一览
+
+开源静态 HTML 模板（`labring/dafeiyu-diary`）内置云端在线状态徽章、今日白饭 Token 统计、昨日「给主人的信」日记卡片与访客「喂一口白饭」互动按钮，零后端依赖也能 1 分钟跑起来。
+
+- **状态区**：展示大肥鱼 `Running` 在线天数、连续防失忆天数与当前运行可用区；
+- **白饭统计**：直观呈现今日消耗 Token 与预估 API 费用；
+- **日记卡片**：按天展示大肥鱼生成的观察日记与好感度成长曲线；
+- **底栏领养入口**：预留可配置的个人邀请码位置，自带「运行在 Sealos 云端」标识。
+
+## 1 分钟极速上线：用 Sealos Desktop「本地代码上线」生成公网 HTTPS
+
+无需购买云服务器或折腾 Nginx 反代，将解压后的观察日记 HTML 文件夹拖入 Sealos Desktop，发送一句中文指令即可获得可公网访问的 `PublicAccess` HTTPS 链接。
+
+把下面这句指令直接发给内置 Agent：
+
+```text
+把我本地这个大肥鱼观察日记 HTML 文件夹直接部署上线，给我一个可公开访问的 HTTPS 域名链接。
+```
+
+审核批准卡（Deploy Plan）并点击确认后，大约 1 分钟就能在 `Canvas` 节点底部拿到专属公网域名，手机点开即可分享到 QQ 群、朋友圈或小红书。还没有客户端可先前往 [DeepSeek 大肥鱼云端部署主页](/use-cases/deepseek-harness) 一键下载。
+
+## 发群晒鱼与好友裂变玩法（双方各得 ¥5 补贴挂机费）
+
+把你的 8 位 Sealos 注册邀请码填入网页底栏的领养链接中，群友通过你的晒鱼网页领养同款大肥鱼时，双方均可获得 **¥5** 云资源余额，相当于帮你的大肥鱼多赚半个月云端小窝房租。
+
+```html
+<a href="https://sealos.run/use-cases/deepseek-harness?invite=你的8位邀请码">
+  领养同款 24 小时云端大肥鱼（双方各得 ¥5）
+</a>
+```
+
+- 邀请码仅接受官方 8 位大写字母与数字组合（系统通过白名单严格校验，非法参数自动静默降级）。
+- 详细费用账单与返利覆盖天数计算，请查看 [养大肥鱼一个月多少钱与四方案对比](/blog/deepseek-bot-hosting-cost-comparison) 或 [AstrBot + NapCat QQ 接入教程](/blog/deploy-deepseek-qq-bot-astrbot-napcat)。
+
+## 常见问题（FAQ）
+
+### 大肥鱼人设提示词（persona.md）应该控制多长最省白饭钱？
+建议将常驻 System Prompt 控制在 400–800 汉字以内，把核心性格、称呼习惯与回复长度规范写清，把长篇背景和纪念日放进 AstrBot 知识库按需检索，避免每轮对话重复消耗高额输入 Token。
+
+### 上线《大肥鱼观察日记》静态网页需要自己买域名和备案吗？
+不需要。把本地 HTML 文件夹拖入 Sealos Desktop「本地代码上线」，内置 Agent 会自动构建容器并分配可直接公开访问的 `PublicAccess` HTTPS 域名，发进 QQ 群或小红书点开即看。
+
+### 如何在晒鱼网页底部绑定自己的 Sealos 邀请码赚取 ¥5 奖励？
+在开源模板的配置文件或页脚链接中，将领养入口设为 `https://sealos.run/use-cases/deepseek-harness?invite=你的8位邀请码`。好友点击后经 `/invite/<code>` 注册实名并首登 Sealos Desktop，双方各得 ¥5 余额。
+
+### 更换或升级 AstrBot 版本时，我辛辛苦苦调教的人设会丢吗？
+不会。Sealos 官方 AstrBot（`v4.29.4`）模板默认将数据目录挂载在持久化存储卷中，同时建议在本地保留一份 `persona.md` 备份，或配合同 `Canvas` 托管 PostgreSQL 开启每日自动备份。

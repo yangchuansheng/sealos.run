@@ -23,6 +23,10 @@ export const Config = (() => {
 	const productsPanelData = getProductsPanelData();
 	const blogCategoryCatalog = [
 		{
+			slug: 'ai-agent',
+			aliases: ['ai-agent', 'ai-实战', 'ai-agent-实战'],
+		},
+		{
 			slug: 'kubernetes',
 			aliases: ['kubernetes', 'kubernetes-教程'],
 		},
@@ -136,6 +140,14 @@ export const Config = (() => {
 							{
 								textI18nKey: t('components.footer.menuItems.resources.links.docs'),
 								url: '/docs',
+							},
+							{
+								textI18nKey: t('components.footer.menuItems.resources.links.useCases'),
+								url: '/use-cases',
+							},
+							{
+								textI18nKey: t('components.footer.menuItems.resources.links.deepseekHarness'),
+								url: '/use-cases/deepseek-harness',
 							},
 						],
 					},

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getPrimaryLocale } from '@/libs/i18n/routing';
 import CategoriesAndListSection from './sections/CategoriesAndListSection';
 import CTABannerSection from './sections/CTABannerSection';
+import DafeiyuSpotlightSection from './sections/DafeiyuSpotlightSection';
 import HeroSection from './sections/HeroSection';
 import HotAndSubscribeSection from './sections/HotAndSubscribeSection';
 import HotPostsSection from './sections/HotPostsSection';
@@ -110,6 +111,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
 			/>
 			<HeroSection />
+			<DafeiyuSpotlightSection />
 			<HotAndSubscribeSection locale={locale} />
 			<HotPostsSection locale={locale} />
 			<CategoriesAndListSection locale={locale} />

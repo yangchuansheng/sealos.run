@@ -1,11 +1,15 @@
 'use client';
 
 import React from 'react';
+import { FlatArrowRightIcon } from '@/assets/icons';
 import { APPSTORE_CATEGORY_META } from '@/libs/appstore/constants';
 import type { AppStoreCategory, AppStoreTemplate } from '@/libs/appstore/types';
 import { Badge } from '@/libs/components/ui/badge';
 import { Button } from '@/libs/components/ui/button';
+import { Icon } from '@/libs/components/ui/icon';
 import { useTranslations } from '@/libs/i18n/client';
+import { Link } from '@/libs/i18n/navigation';
+import { HUB_PATH, isDafeiyuTemplateSlug } from '@/libs/seo/deepseek-harness';
 import { cn } from '@/libs/utils/styling';
 import { AppStoreIcon } from '../components/AppStoreIcon';
 
@@ -119,14 +123,10 @@ const TemplateCard = React.memo(function TemplateCard({
 }) {
 	const deployUrl = buildTemplateDeployUrl(templateDeployUrlTemplate, data.slug);
 	const markerLetter = getTemplateMarkerLetter(data);
+	const isDafeiyuTemplate = isDafeiyuTemplateSlug(data.slug);
 
-	return (
-		<a
-			href={deployUrl}
-			target='_blank'
-			rel='noopener noreferrer'
-			className='hover:border-brand flex flex-col gap-2 rounded-lg border p-4 transition-colors hover:shadow-xs'
-		>
+	const cardBody = (
+		<>
 			<div className='flex items-start justify-between gap-2'>
 				<div className='flex min-w-0 flex-1 items-center gap-2.5'>
 					<div className='flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-zinc-50'>
@@ -164,6 +164,45 @@ const TemplateCard = React.memo(function TemplateCard({
 					{categoryName ?? data.category}
 				</Badge>
 			</div>
+		</>
+	);
+
+	if (isDafeiyuTemplate) {
+		return (
+			<div className='hover:border-brand flex flex-col justify-between gap-3 rounded-lg border bg-white p-4 transition-colors hover:shadow-xs'>
+				<a
+					href={deployUrl}
+					target='_blank'
+					rel='noopener noreferrer'
+					className='flex flex-col gap-2'
+				>
+					{cardBody}
+				</a>
+				<div className='border-border border-t pt-2.5'>
+					<Link
+						href={HUB_PATH}
+						className='text-brand inline-flex items-center gap-1 text-xs font-medium hover:underline'
+					>
+						<span>查看大肥鱼 24 小时云端部署方案</span>
+						<Icon
+							src={FlatArrowRightIcon}
+							className='size-3.5'
+							aria-hidden
+						/>
+					</Link>
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<a
+			href={deployUrl}
+			target='_blank'
+			rel='noopener noreferrer'
+			className='hover:border-brand flex flex-col gap-2 rounded-lg border p-4 transition-colors hover:shadow-xs'
+		>
+			{cardBody}
 		</a>
 	);
 });

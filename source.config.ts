@@ -21,12 +21,35 @@ const aiproxyModelTypeSchema = z.enum([
 
 const aiproxyCapabilitySchema = z.enum(['tool_choice', 'vision', 'coder']);
 
+const blogFaqSchema = z.object({
+	question: z.string(),
+	answer: z.string(),
+});
+
 export const docs = defineDocs({
 	dir: 'content/content/docs',
 });
 
 export const blog = defineDocs({
 	dir: 'content/content/blog',
+	docs: {
+		schema: pageSchema
+			.extend({
+				date: z
+					.union([z.string(), z.date()])
+					.transform((value) => (value instanceof Date ? value.toISOString().slice(0, 10) : value))
+					.optional(),
+				author: z.string().optional(),
+				category: z.string().optional(),
+				tags: z.array(z.string()).optional(),
+				readingTime: z.coerce.number().int().nonnegative().optional(),
+				views: z.coerce.number().int().nonnegative().optional(),
+				thumbnail: z.string().optional(),
+				featured: z.boolean().optional(),
+				faqs: z.array(blogFaqSchema).optional(),
+			})
+			.loose(),
+	},
 });
 
 export const appstore = defineDocs({

@@ -1,0 +1,103 @@
+---
+title: 大肥鱼怎么接入 QQ？免挂电脑 5 分钟用 Sealos Desktop 部署 AstrBot + NapCat 保姆级教程
+description: 零 Linux 与 Docker 基础也能跟着做：使用 Sealos Desktop 一键拉起官方 AstrBot（v4.29.4）模板、用自然语言在同 Canvas 追加 NapCat 接入 QQ、绑定 DeepSeek API Key，并附 MaiBot（v1.4.5）备选路径与常见排障清单。
+date: '2026-11-19'
+author: Sealos 工程团队
+category: AI 实战
+tags:
+  - AstrBot
+  - NapCat
+  - QQ 机器人
+  - Sealos Desktop
+readingTime: 10
+views: 5180
+featured: true
+faqs:
+  - question: AstrBot 官方模板首次部署时初始密码有什么格式要求？
+    answer: AstrBot v4.29.4 官方模板要求 dashboard_password 至少 8 位且同时包含大写字母、小写字母与数字。首次打开 PublicAccess 控制台后按页面提示完成 Set Up Account 即可进入管理后台。
+  - question: QQ 官方渠道和 NapCat 个人号接入有什么区别？
+    answer: QQ 官方机器人渠道合规稳健且免额外桥接容器，适合固定场景交互；NapCat 通过 OneBot v11 协议对接个人 QQ 体验更贴近日常群聊与私聊，但务必控制回复频率并配置夜间作息时间窗以防账号风控。
+  - question: 在 Sealos 同 Canvas 里追加 NapCat 会多收一个公网端口费吗？
+    answer: 不会。NapCat 容器与 AstrBot 运行在同一个 Project 私有内网中，直接通过内网地址联通 AstrBot 6185 端口，无需给 NapCat 常驻开放 PublicAccess 公网端口，可省下额外端口费用。
+  - question: 电脑关机以后，部署在 Sealos 上的 AstrBot 和 NapCat 还会在线吗？
+    answer: 会。Sealos Desktop 仅用于下发编排和可视化管理，部署完成后所有 Service 运行在云端 Kubernetes 集群中，合上电脑依然 24 小时在线。
+---
+
+<Callout type="info" title="独立开源生态声明">
+本教程基于开源项目 AstrBot（v4.29.4）、MaiBot（v1.4.5）与 NapCat 编写，提供云端合规部署步骤，独立于 DeepSeek 官方。请遵循各即时通讯平台使用规范并合理设置消息冷却间隔。
+</Callout>
+
+## 部署前准备清单（3 分钟备齐）
+
+只需一台 macOS 或 Windows 电脑安装 Sealos Desktop，并准备一枚可用的 DeepSeek API Key，无需自备云服务器、域名或手写 Docker Compose 配置。
+
+1. **安装 Sealos Desktop**：前往 [DeepSeek 大肥鱼云端部署专题页](/use-cases/deepseek-harness) 或 [下载页](/downloads) 获取 macOS（Apple Silicon / Intel）或 Windows 安装包，首次登录并完成实名认证即可领取 **¥10 永久有效体验金**。
+2. **准备 DeepSeek API Key**：在 DeepSeek 开放平台或兼容的 `AI Gateway` 生成 API Key（大模型 Token「白饭钱」与 Sealos 云算力费用独立结算）。
+3. **选择接入通道**：
+   - **稳健优先（免桥接）**：直接使用 AstrBot 内置 WebUI 或 QQ 官方机器人渠道，北京区基础托管公式核算仅约 `¥9.76/月`；
+   - **个人 QQ 日常陪伴（OneBot v11）**：在同一 `Project` `Canvas` 追加内网 NapCat 容器与 AstrBot 联通，请务必遵循后文风控冷却建议。
+
+## 第一步：在 Sealos Desktop 一键部署官方 AstrBot 模板（v4.29.4）
+
+打开 Sealos Desktop 的模板市场搜索并部署官方 `AstrBot` 模板，系统会自动创建 `100m` CPU / `512Mi` 内存 / `1Gi` 持久卷容器与 `6185` 端口 `PublicAccess` HTTPS 控制台。
+
+1. 在桌面端点击「模板」入口，选择已上架的 **AstrBot**（镜像版本 `soulter/astrbot:v4.29.4`）。
+2. 填写环境变量 `dashboard_password`：**必须满足至少 8 位，且同时包含大写字母、小写字母和数字**（例如 `Whale2026Go`），避免初始化校验失败。
+3. 点击确认部署，等待 `Canvas` 中 `astrbot` `Service` 节点状态变为绿色 `Running`。
+4. 点击节点卡底部的 `PublicAccess` HTTPS 域名打开控制台，按界面引导完成首次 `Set Up Account` 账号绑定。
+
+> 官方模板已将 `/AstrBot/data` 挂载到 `1Gi` 持久化数据卷，重启容器或更新配置均保留历史数据。
+
+## 第二步：用 Agent 自然语言在同 Canvas 追加 NapCat 并打通内网
+
+在右侧 Agent 对话框直接粘贴中文需求，内置 Agent 会自动生成同 `Project` 内网的 NapCat `Service` 编排方案，并弹出批准卡（Deploy Plan）由你确认资源与单价后一键执行。
+
+复制以下指令发给 Sealos Desktop 内置 Agent：
+
+```text
+帮我在当前项目的 AstrBot 同画布里追加一个 NapCat 容器，用内网地址和 AstrBot 6185 端口联通，给它配 0.2 核 512Mi 内存和 1Gi 持久化目录，先出 Deploy Plan 给我确认。
+```
+
+核对 Deploy Plan 批准卡重点项：
+- **资源规格**：`0.2` 核 CPU / `512Mi` 内存 / `1Gi` 持久卷；
+- **网络策略**：优先走同 `Project` 内网直连 AstrBot（`<1ms`，零内网流量费），不常驻暴露额外公网端口；
+- **确认拉起**：点击批准后，待 `Canvas` 中 `astrbot` 与 `napcat` 节点全绿，按控制台日志完成一次性登录扫码或配置 OneBot v11 反向 WebSocket 鉴权 Token。
+
+## 第三步：在 AstrBot 控制台配置 DeepSeek API 与大肥鱼人设
+
+进入 AstrBot WebUI 的服务提供商与人格设置页面，填入 DeepSeek API Key 并粘贴 `persona.md` 人设词，即可在 QQ 与 WebUI 同时唤醒你的 24 小时大肥鱼。
+
+1. 打开 **模型提供商（Provider）** → 新增 OpenAI 兼容或 DeepSeek 提供商，填入你的 API Key 与模型名称（如 `deepseek-chat`）。
+2. 打开 **人格设置** → 导入社区人设词（可直接从 [大肥鱼人设提示词与观察日记模板](/blog/deepseek-whale-persona-diary-template) 一键复制傲娇女仆、治愈陪伴或学习搭子模板）。
+3. 打开 **插件与限流** → 设置单群最小回复间隔（建议 `≥ 15–30 秒`）和上下文轮数上限，防止对话过长造成 Token 飙升。
+
+## 常见启动报错与快速排查清单
+
+90% 的首次接入问题集中在初始密码格式、Provider 未启用、以及 OneBot WebSocket 端口地址填写错误，可直接对照下表定位或在桌面端直接询问内置 Agent 读日志排查。
+
+| 报错现象 | 常见原因 | 解决方式 |
+| --- | --- | --- |
+| 控制台无法登录或初始化失败 | `dashboard_password` 少于 8 位或缺少大小写/数字 | 修改环境变量满足大小写+数字 8 位规则后重启 Service |
+| QQ 发送消息无回复 | AstrBot 中未激活默认 LLM Provider 或余额不足 | 检查 Provider 启用开关与 DeepSeek API 账户额度 |
+| NapCat 提示 WebSocket 断连 | 填写了公网域名而非同 Project 内网服务地址，或端口写错 | 使用 Agent 整理的内网 Service 地址与 `6185` 端口，并核对鉴权 Token |
+| 长对话后忘记设定或 Token 暴涨 | 上下文窗口无限叠加且未配长期记忆库 | 参考 [防失忆长期记忆库与冷却参数指南](/blog/deepseek-bot-memory-database-rate-limit) |
+
+## 备选路线：一键部署同已上架的 MaiBot（v1.4.5）数字伴侣
+
+如果你更偏爱多 Bot 工作区与沉浸式人格陪伴，可以直接在 Sealos Desktop 模板市场选择官方 **MaiBot**（`sengokucola/maibot:v1.4.5`）模板一键上线。
+
+MaiBot 官方模板默认配置 `100m` CPU / `512Mi` 内存与 `2Gi` 双持久卷（`/MaiMBot/host` 与 `/MaiMBot/bots`），`8001` 端口自动开启 HTTPS/WS，北京区公式核算约 `¥10.14/月`。关于 AstrBot 与 MaiBot 的详细选型与四种挂机方式账单对比，请阅读 [养大肥鱼一个月多少钱与选型对比](/blog/deepseek-bot-hosting-cost-comparison)。
+
+## 常见问题（FAQ）
+
+### AstrBot 官方模板首次部署时初始密码有什么格式要求？
+AstrBot v4.29.4 官方模板要求 `dashboard_password` 至少 8 位且同时包含大写字母、小写字母与数字。首次打开 `PublicAccess` 控制台后按页面提示完成 `Set Up Account` 即可进入管理后台。
+
+### QQ 官方渠道和 NapCat 个人号接入有什么区别？
+QQ 官方机器人渠道合规稳健且免额外桥接容器，适合固定场景交互；NapCat 通过 OneBot v11 协议对接个人 QQ 体验更贴近日常群聊与私聊，但务必控制回复频率并配置夜间作息时间窗以防账号风控。
+
+### 在 Sealos 同 Canvas 里追加 NapCat 会多收一个公网端口费吗？
+不会。NapCat 容器与 AstrBot 运行在同一个 `Project` 私有内网中，直接通过内网地址联通 AstrBot `6185` 端口，无需给 NapCat 常驻开放 `PublicAccess` 公网端口，可省下额外端口费用。
+
+### 电脑关机以后，部署在 Sealos 上的 AstrBot 和 NapCat 还会在线吗？
+会。Sealos Desktop 仅用于下发编排和可视化管理，部署完成后所有 `Service` 运行在云端 Kubernetes 集群中，合上电脑依然 24 小时在线。

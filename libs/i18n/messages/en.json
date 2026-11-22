@@ -44,6 +44,7 @@
 					"searchPlaceholder": "搜索文章...",
 					"allCategories": "全部",
 					"categories": {
+						"ai-agent": "AI Agent",
 						"kubernetes": "Kubernetes",
 						"docker": "Docker",
 						"devops": "DevOps",
@@ -212,7 +213,9 @@
 					"title": "资源",
 					"links": {
 						"docs": "文档",
-						"blog": "博客"
+						"blog": "博客",
+						"useCases": "使用场景",
+						"deepseekHarness": "DeepSeek 大肥鱼云端部署"
 					}
 				},
 				"products": {

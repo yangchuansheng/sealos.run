@@ -4,6 +4,7 @@ import {
 	AppLaunchpadIcon,
 	CheckOverFrameIcon,
 	ChevronDownIcon,
+	DeepseekIcon,
 	FramedClockIcon,
 	FramedPrivateIcon,
 	MonitorIcon,
@@ -17,7 +18,10 @@ import {
 	TrendIcon,
 	TrendingDownIcon,
 } from '@/assets/icons';
+import { LandingOutlineButton } from '@/libs/components/LandingOutlineButton';
+import { Badge } from '@/libs/components/ui/badge';
 import { Icon } from '@/libs/components/ui/icon';
+import { HUB_PATH } from '@/libs/seo/deepseek-harness';
 import { getDesktopDownloads } from '@/libs/utils/desktop-downloads';
 import { cn } from '@/libs/utils/styling';
 import {
@@ -144,6 +148,46 @@ export async function DownloadContent() {
 							Key、数据库、缓存、对象存储，帮你一键上线、持续运维。
 						</p>
 					</div>
+				</div>
+			</section>
+
+			<section className={cn(styles['section'], styles['container'])}>
+				<div className='border-brand flex flex-col justify-between gap-6 rounded-2xl border border-dashed bg-white p-6 shadow-xs lg:flex-row lg:items-center lg:p-8'>
+					<div className='flex items-start gap-4'>
+						<span className='bg-blue-50 text-brand hidden size-12 shrink-0 items-center justify-center rounded-xl sm:flex'>
+							<Icon
+								src={DeepseekIcon}
+								className='size-7'
+								aria-hidden
+							/>
+						</span>
+						<div className='flex flex-col gap-2'>
+							<div className='flex flex-wrap items-center gap-2'>
+								<Badge
+									variant='outline'
+									size='sm'
+								>
+									<span className='bg-brand size-1.5 shrink-0 rounded-full' />
+									<span>热门实战场景</span>
+								</Badge>
+								<span className='text-muted-foreground text-xs'>首登实名领 ¥10 · 约 ¥0.33/天起步</span>
+							</div>
+							<h2 className='text-foreground text-xl font-semibold sm:text-2xl'>
+								24 小时云端养大肥鱼（DeepSeek Harness / AstrBot）
+							</h2>
+							<p className='text-muted-foreground max-w-2xl text-sm leading-relaxed'>
+								下载桌面端后一键拉起官方 AstrBot（v4.29.4）或 MaiBot（v1.4.5）持久化模板，由内置 Agent
+								同画布追加 NapCat 与托管 PostgreSQL，关掉电脑 QQ 照样 24 小时在线不失忆。
+							</p>
+						</div>
+					</div>
+
+					<LandingOutlineButton
+						href={HUB_PATH}
+						size='md'
+					>
+						查看大肥鱼云端部署方案
+					</LandingOutlineButton>
 				</div>
 			</section>
 

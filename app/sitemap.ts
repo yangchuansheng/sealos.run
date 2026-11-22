@@ -15,6 +15,8 @@ const staticRoutes: Array<{
 	{ path: '/pricing/payg', changeFrequency: 'monthly', priority: 0.8 },
 	{ path: '/private-cloud', changeFrequency: 'monthly', priority: 0.8 },
 	{ path: '/solutions', changeFrequency: 'monthly', priority: 0.8 },
+	{ path: '/use-cases', changeFrequency: 'weekly', priority: 0.8 },
+	{ path: '/use-cases/deepseek-harness', changeFrequency: 'weekly', priority: 0.9 },
 	{ path: '/docs', changeFrequency: 'weekly', priority: 0.8 },
 	{ path: '/products/devbox', changeFrequency: 'monthly', priority: 0.8 },
 	{ path: '/products/database', changeFrequency: 'monthly', priority: 0.8 },

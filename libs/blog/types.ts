@@ -1,3 +1,5 @@
+import type { BlogFaqItem } from './seo';
+
 export interface BlogPost {
 	title: string;
 	description: string;
@@ -10,6 +12,7 @@ export interface BlogPost {
 	views: number;
 	thumbnail?: string;
 	featured?: boolean;
+	faqs?: BlogFaqItem[];
 	url: string;
 	slug: string;
 }

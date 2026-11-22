@@ -64,6 +64,15 @@ export function AppStoreSearchExperience({ templates, templateDeployUrlTemplate 
 		};
 	}, [runSettledSearch]);
 
+	React.useEffect(() => {
+		const initialQuery = new URLSearchParams(window.location.search).get('q')?.trim();
+		if (!initialQuery) return;
+		setQuery(initialQuery);
+		setSettledQuery(initialQuery);
+		setActiveCategory(null);
+		setSearchVersion((current) => current + 1);
+	}, []);
+
 	const searchedTemplates = React.useMemo(() => {
 		if (!settledQuery) return templates;
 		return fuse.search(settledQuery).map((result) => result.item);

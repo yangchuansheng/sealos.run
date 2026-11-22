@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ArchitectureBoxIcon, FramedCheckIcon, MoreIcon, SealosBoxIcon } from '@/assets/icons';
 import { Icon } from '@/libs/components/ui/icon';
 import { VerticalDashedLine } from '@/libs/components/VerticalDashedLine';
+import { DafeiyuCampaignBanner } from './components/DafeiyuCampaignBanner';
 import { DesktopAnnouncement } from './components/DesktopAnnouncement';
 import { FeaturesSectionWrapper } from './components/FeaturesSectionWrapper';
 import { ArchSection } from './sections/ArchSection';
@@ -113,6 +114,7 @@ const jsonLd = {
 export default async function HomePage() {
 	return (
 		<div className='flex w-full flex-col'>
+			<DafeiyuCampaignBanner />
 			<DesktopAnnouncement />
 			<script
 				type='application/ld+json'
