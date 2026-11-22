@@ -90,8 +90,6 @@ export async function Navbar() {
 						<NavbarActions
 							contactLabel={t('components.navbar.buttons.contact')}
 							contactFormConfig={Config.pages.solutions.contactForm}
-							signinHref={Config.components.navbar.signinLink}
-							signinLabel={t('components.navbar.buttons.signin')}
 						/>
 					</div>
 					<div className='lg:hidden'>
@@ -99,8 +97,6 @@ export async function Navbar() {
 							links={Config.components.navbar.links}
 							contactLabel={t('components.navbar.buttons.contact')}
 							contactFormConfig={Config.pages.solutions.contactForm}
-							signinHref={Config.components.navbar.signinLink}
-							signinLabel={t('components.navbar.buttons.signin')}
 						/>
 					</div>
 				</div>

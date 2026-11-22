@@ -1,14 +1,11 @@
 import { PlayIcon } from '@/assets/icons';
 import { LandingOutlineButton } from '@/libs/components/LandingOutlineButton';
-import { Config } from '@/libs/config';
 
 type CTASectionProps = {
 	docHref: string;
 };
 
 export function CTASection({ docHref }: CTASectionProps) {
-	const { signinLink } = Config.components.navbar;
-
 	return (
 		<div className='flex w-full flex-col items-start justify-between gap-12 lg:flex-row lg:items-end'>
 			<div className='flex flex-col items-start justify-between gap-4'>
@@ -36,14 +33,6 @@ export function CTASection({ docHref }: CTASectionProps) {
 					icon={PlayIcon}
 				>
 					查看文档
-				</LandingOutlineButton>
-				<LandingOutlineButton
-					href={signinLink}
-					size='lg'
-					borderStyle='solid'
-					className='w-full sm:w-auto'
-				>
-					立即创建
 				</LandingOutlineButton>
 			</div>
 		</div>

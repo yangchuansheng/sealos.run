@@ -19,11 +19,9 @@ interface NavbarActionsProps {
 		endpoint: string;
 		version: string;
 	};
-	signinHref: string;
-	signinLabel: string;
 }
 
-export function NavbarActions({ contactLabel, contactFormConfig, signinHref, signinLabel }: NavbarActionsProps) {
+export function NavbarActions({ contactLabel, contactFormConfig }: NavbarActionsProps) {
 	const [open, setOpen] = React.useState(false);
 
 	return (
@@ -48,20 +46,6 @@ export function NavbarActions({ contactLabel, contactFormConfig, signinHref, sig
 								/>
 								{contactLabel}
 							</button>
-						</NavigationMenuLink>
-					</NavigationMenuItem>
-
-					<NavigationMenuItem>
-						<NavigationMenuLink
-							asChild
-							className={cn(
-								buttonVariants(),
-								'bg-primary text-primary-foreground hover:bg-brand hover:text-background flex h-10 w-24 items-center justify-center px-0 shadow',
-							)}
-						>
-							<a href={signinHref}>
-								<span className='absolute transition-opacity'>{signinLabel}</span>
-							</a>
 						</NavigationMenuLink>
 					</NavigationMenuItem>
 				</NavigationMenuList>

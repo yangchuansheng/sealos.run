@@ -105,7 +105,6 @@
 				"titleLine1": "One sentence,",
 				"titleLine2": "and your project is live.",
 				"subtitle": "Sealos Desktop brings an Agent into project deployment and management. From reading local projects and understanding your needs to deployment and ongoing operations, let the Agent handle it.",
-				"primaryCta": "Accept invite & get started",
 				"invalid": {
 					"not_found": "This invite link is invalid or expired. You can still sign up and download as usual, but this registration will not be tied to a referral reward.",
 					"disabled": "This invite link has been disabled. You can still sign up and download as usual, but this registration will not be tied to a referral reward.",
@@ -261,8 +260,7 @@
 			},
 			"buttons": {
 				"contact": "联系我们",
-				"community": "社区",
-				"signin": "登录"
+				"community": "社区"
 			},
 			"community": {
 				"discord": {

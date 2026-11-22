@@ -3,7 +3,6 @@ import { FramedQuestionIcon, ModelIcon } from '@/assets/icons';
 import { getAiproxyModels } from '@/libs/aiproxy/utils';
 import { Icon } from '@/libs/components/ui/icon';
 import { VerticalDashedLine } from '@/libs/components/VerticalDashedLine';
-import { Config } from '@/libs/config';
 import { getPrimaryLocale } from '@/libs/i18n/routing';
 import { CTASection } from './sections/CTASection';
 import { FAQSection, faqs } from './sections/FAQSection';
@@ -61,7 +60,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 export default async function AiproxyPage() {
-	const { signinLink } = Config.components.navbar;
 	const models = getAiproxyModels();
 	const jsonLd = {
 		'@context': 'https://schema.org',
@@ -156,7 +154,7 @@ export default async function AiproxyPage() {
 
 			<section className='relative container mx-auto'>
 				{/* Decoration line is inside the section */}
-				<MigGuideSection signinHref={signinLink} />
+				<MigGuideSection />
 			</section>
 
 			<section className='relative container mx-auto py-16 pt-20 pr-6 pl-16 sm:pl-24'>

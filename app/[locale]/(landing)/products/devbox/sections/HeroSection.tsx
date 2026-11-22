@@ -11,14 +11,10 @@ import {
 	SpringbootIcon,
 	UbuntuIcon,
 } from '@/assets/app-icons';
-import { LandingOutlineButton } from '@/libs/components/LandingOutlineButton';
 import { Icon } from '@/libs/components/ui/icon';
-import { Config } from '@/libs/config';
 import { HeroBgImage } from '../assets';
 
 export function HeroSection() {
-	const { signinLink } = Config.components.navbar;
-
 	const languages = [
 		{ name: 'Claude Code', icon: ClaudeCodeIcon },
 		{ name: 'Python', icon: PythonIcon },
@@ -52,15 +48,6 @@ export function HeroSection() {
 					</h1>
 					<div className='text-muted-foreground gap-2 text-lg'>
 						「内置所有语言框架」 「云端环境隔离」 「自动构建镜像」 「一键发布上线」
-					</div>
-					<div className='flex items-center gap-8'>
-						<LandingOutlineButton
-							href={signinLink}
-							size='lg'
-							className='w-fit'
-						>
-							选择语言
-						</LandingOutlineButton>
 					</div>
 				</div>
 			</div>

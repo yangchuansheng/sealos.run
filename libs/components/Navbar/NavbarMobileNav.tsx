@@ -41,8 +41,6 @@ interface NavbarMobileNavProps {
 		endpoint: string;
 		version: string;
 	};
-	signinHref: string;
-	signinLabel: string;
 }
 
 const productItems = [
@@ -69,13 +67,7 @@ const productItems = [
 	{ id: 'app', label: '应用', href: '/products/appstore', icon: CubesIcon },
 ] as const;
 
-export function NavbarMobileNav({
-	links,
-	contactLabel,
-	contactFormConfig,
-	signinHref,
-	signinLabel,
-}: NavbarMobileNavProps) {
+export function NavbarMobileNav({ links, contactLabel, contactFormConfig }: NavbarMobileNavProps) {
 	const t = useTranslations();
 	const pathname = usePathname();
 	const { open, setOpen } = React.useContext(NavbarMobileContext);
@@ -263,18 +255,6 @@ export function NavbarMobileNav({
 														/>
 														{contactLabel}
 													</button>
-												</NavigationMenuLink>
-											</NavigationMenuItem>
-
-											<NavigationMenuItem className='w-full'>
-												<NavigationMenuLink
-													asChild
-													className={cn(
-														buttonVariants({ variant: 'default' }),
-														'bg-foreground text-background hover:bg-foreground/90 focus:text-background hover:text-background focus:bg-foreground/90 h-9 w-full justify-center rounded-full',
-													)}
-												>
-													<a href={signinHref}>{signinLabel}</a>
 												</NavigationMenuLink>
 											</NavigationMenuItem>
 										</NavigationMenuList>

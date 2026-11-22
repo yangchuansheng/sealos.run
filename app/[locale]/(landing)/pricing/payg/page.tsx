@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Config } from '@/libs/config';
 import { getPrimaryLocale } from '@/libs/i18n/routing';
 import { CalculatorSection } from './sections/CalculatorSection';
 import { CTASection } from './sections/CTASection';
@@ -80,7 +79,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function PaygPricingPage({ params }: { params: Promise<{ locale: string }> }) {
 	const { locale } = await params;
-	const { signinLink } = Config.components.navbar;
 	const actualLocale = getPrimaryLocale(locale);
 	const shouldRenderSeoLocaleNotice = actualLocale !== 'zh';
 
@@ -103,7 +101,7 @@ export default async function PaygPricingPage({ params }: { params: Promise<{ lo
 			</section>
 
 			<section>
-				<CalculatorSection signinHref={signinLink} />
+				<CalculatorSection />
 			</section>
 
 			<section className='container mx-auto px-6 py-16'>

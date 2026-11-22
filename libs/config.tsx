@@ -84,7 +84,6 @@ export const Config = (() => {
 			navbar: {
 				contactButtonLink: 'https://fael3z0zfze.feishu.cn/share/base/form/shrcnamY6ULVuhDVLtPeA2izC5f',
 				contactLink: 'https://cloud.sealos.run/',
-				signinLink: 'https://cloud.sealos.run/',
 				links: [
 					{
 						textI18nKey: t('components.navbar.links.products'),

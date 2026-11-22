@@ -3,7 +3,6 @@
 import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
 import React from 'react';
 import { AiIcon, ApiIcon, KeyIcon, ListIcon } from '@/assets/icons';
-import { LandingOutlineButton } from '@/libs/components/LandingOutlineButton';
 import { Icon } from '@/libs/components/ui/icon';
 import { VerticalDashedLine } from '@/libs/components/VerticalDashedLine';
 import { ApiCallScene } from '../components/ApiCallScene';
@@ -34,7 +33,7 @@ const scenes = [
 	},
 ];
 
-export function MigGuideSection({ signinHref }: { signinHref: string }) {
+export function MigGuideSection() {
 	const containerRef = React.useRef<HTMLDivElement>(null);
 
 	const { scrollYProgress } = useScroll({
@@ -104,14 +103,6 @@ export function MigGuideSection({ signinHref }: { signinHref: string }) {
 								<p className='text-muted-foreground text-base'>{activeScene.description}</p>
 							</motion.div>
 						</AnimatePresence>
-					</div>
-					<div className='flex justify-end pr-4'>
-						<LandingOutlineButton
-							href={signinHref}
-							size='lg'
-						>
-							快速开始
-						</LandingOutlineButton>
 					</div>
 				</div>
 

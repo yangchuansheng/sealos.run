@@ -2,7 +2,6 @@ import type { StaticImageData } from 'next/image';
 import { AlibabaCloudIcon, GoogleCloudIcon, TencentCloudIcon, VolcanoEngineIcon } from '@/assets/app-icons';
 import { LandingOutlineButton } from '@/libs/components/LandingOutlineButton';
 import { Icon } from '@/libs/components/ui/icon';
-import { Config } from '@/libs/config';
 import { HeroBg } from '../components/HeroBg';
 
 const cloudProviders: Array<{ name: string; icon: StaticImageData }> = [
@@ -25,8 +24,6 @@ const cloudProviders: Array<{ name: string; icon: StaticImageData }> = [
 ];
 
 export function HeroSection() {
-	const { signinLink } = Config.components.navbar;
-
 	return (
 		<div className='relative flex flex-col justify-between'>
 			<HeroBg />
@@ -61,12 +58,6 @@ export function HeroSection() {
 						size='lg'
 					>
 						立即下载
-					</LandingOutlineButton>
-					<LandingOutlineButton
-						href={signinLink}
-						size='lg'
-					>
-						免费试用
 					</LandingOutlineButton>
 				</div>
 			</div>

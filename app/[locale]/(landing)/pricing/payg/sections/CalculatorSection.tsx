@@ -12,7 +12,6 @@ import {
 	PortIcon,
 	PricetagIcon,
 } from '@/assets/icons';
-import { LandingOutlineButton } from '@/libs/components/LandingOutlineButton';
 import { Icon } from '@/libs/components/ui/icon';
 import { NumberInput } from '@/libs/components/ui/number-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/libs/components/ui/select';
@@ -199,7 +198,7 @@ function RegionVendorIcon({ icon, name }: { icon: StaticImageData; name: string 
 	);
 }
 
-export function CalculatorSection({ signinHref }: { signinHref: string }) {
+export function CalculatorSection() {
 	const preciseCny = useCnyFormatter(6);
 	const totalCny = useCnyFormatter(2);
 	const appTypePresetMap = React.useMemo(() => new Map(appTypes.map((appType) => [appType.id, appType])), []);
@@ -604,15 +603,6 @@ export function CalculatorSection({ signinHref }: { signinHref: string }) {
 										</div>
 									)}
 								</div>
-							</div>
-
-							<div className='flex w-full justify-start lg:w-auto lg:justify-end'>
-								<LandingOutlineButton
-									href={signinHref}
-									size='lg'
-								>
-									开始部署
-								</LandingOutlineButton>
 							</div>
 						</div>
 

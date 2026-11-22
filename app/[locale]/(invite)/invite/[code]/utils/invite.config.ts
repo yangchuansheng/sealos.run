@@ -8,11 +8,6 @@ const INVITE_CODE_PATTERN = /^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{8}$/;
 
 export const isPlausibleInviteCode = (code: string) => INVITE_CODE_PATTERN.test(code);
 
-// The console no longer serves a standalone /invite/<code> page (it 404s back
-// to home and loses attribution). Registration goes through /signin, whose SSR
-// persists the invite cookie before the OAuth flow starts.
-export const consoleInviteUrl = (code: string) => `${CHINA_CONSOLE_BASE_URL}/signin?invite=${encodeURIComponent(code)}`;
-
 // Read-only preview endpoint (no accept side effects). The cloud deployment
 // provides it; until then the page degrades gracefully without inviter info.
 export const consoleInvitePreviewUrl = (code: string) =>

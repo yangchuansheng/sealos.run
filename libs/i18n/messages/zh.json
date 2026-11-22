@@ -105,7 +105,6 @@
 				"titleLine1": "一句话，",
 				"titleLine2": "帮你把项目部署上线！",
 				"subtitle": "Sealos Desktop 将 Agent 深度融入项目部署与管理：从读取你电脑里的本地项目、理解你的需求，到部署上线与后续管理，都可以交给 Agent。",
-				"primaryCta": "接受邀请，开始体验",
 				"invalid": {
 					"not_found": "邀请链接无效或已过期。你仍可以正常注册和下载，但本次注册不会关联邀请奖励。",
 					"disabled": "该邀请链接已被停用。你仍可以正常注册和下载，但本次注册不会关联邀请奖励。",
@@ -263,8 +262,7 @@
 			},
 			"buttons": {
 				"contact": "联系我们",
-				"community": "社区",
-				"signin": "登录"
+				"community": "社区"
 			},
 			"community": {
 				"discord": {
